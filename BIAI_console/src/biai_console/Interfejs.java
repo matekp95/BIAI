@@ -17,7 +17,7 @@ public class Interfejs {
 
     public static void main(String[] args) {
             ChromosomeDAO chromosom=new ChromosomeDAO(4, 5, 4);
-            chromosom.createListOfTeachersClasses();
+           
             chromosom.printTeachersClasses();
             
             chromosom.createRandomMatrix();

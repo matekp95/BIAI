@@ -16,7 +16,6 @@ import java.util.Random;
 public class ChromosomeDAO {
     private Matrix matrix;
     private Random rand=new Random();
-    private List<ArrayList<Integer>> listOfTeachersClasses;
     private List<Teacher> listOfTeachers;
     private Integer numberOfClasses;
     private Integer numberOfHours;
@@ -31,40 +30,7 @@ public class ChromosomeDAO {
         this.listOfTeachers=DAO.getInstancja().getTeachers();
     }
   
-    public void createListOfTeachersClasses(){
-        listOfTeachersClasses=new ArrayList<>(); 
-        /*ArrayList<Integer> listOfClasses;
-        
-        listOfClasses=new ArrayList<>();
-        listOfClasses.add(1);
-        listOfClasses.add(2);
-        listOfClasses.add(3);
-        listOfClasses.add(4);
-        listOfTeachersClasses.add(listOfClasses);
-        
-        
-        listOfClasses=new ArrayList<>();
-        listOfClasses.add(1);
-        listOfClasses.add(2);
-        listOfClasses.add(3);
-        listOfClasses.add(4);
-        listOfTeachersClasses.add(listOfClasses);
-        
-        
-        listOfClasses=new ArrayList<>();
-        listOfClasses.add(1);
-        listOfClasses.add(2);
-        listOfTeachersClasses.add(listOfClasses);
-        
-
-        listOfClasses=new ArrayList<>();
-        listOfClasses.add(3);
-        listOfClasses.add(4);
-        listOfTeachersClasses.add(listOfClasses);
-       
-        */
-            
-    }
+    
     void createRandomMatrix(){
         matrix=new Matrix(numberofTeachers,numberOfHours);
         int randHour;
@@ -113,12 +79,7 @@ public class ChromosomeDAO {
         System.out.println();
         
         
-        if (!listOfTeachersClasses.isEmpty()) {
-            for (ArrayList<Integer> list: listOfTeachersClasses){
-                System.out.print(list);
-            }
-        }
-        System.out.println();
+        
     }
 
     public Matrix getMatrix() {
