@@ -30,6 +30,7 @@ public class ChromosomeDAO {
         this.listOfTeachers=DAO.getInstancja().getTeachers();
     }
   
+   
     
     void createRandomMatrix(){
         matrix=new Matrix(numberofTeachers,numberOfHours);
@@ -62,8 +63,6 @@ public class ChromosomeDAO {
         }
         return false;
     }
-            
-
     void printChromosome() {
      
          matrix.matrixPrint();
@@ -81,35 +80,27 @@ public class ChromosomeDAO {
         
         
     }
-
     public Matrix getMatrix() {
         return matrix;
     }
-
     public void setMatrix(Matrix matrix) {
         this.matrix = matrix;
     }
-
     public Integer getNumberOfClasses() {
         return numberOfClasses;
     }
-
     public void setNumberOfClasses(Integer numberOfClasses) {
         this.numberOfClasses = numberOfClasses;
     }
-
     public Integer getNumberofTeachers() {
         return numberofTeachers;
     }
-
     public void setNumberofTeachers(Integer numberofTeachers) {
         this.numberofTeachers = numberofTeachers;
     }
-
     public Integer getNumberOfHours() {
         return matrix.getColumns();
     }
-
     public void setNumberOfHours(Integer numberOfHours) {
         this.numberOfHours = numberOfHours;
     }

@@ -20,10 +20,12 @@ public class Interfejs {
            
             chromosom.printTeachersClasses();
             
+            
             chromosom.createRandomMatrix();
             chromosom.printChromosome();
             Plans plans=new Plans(chromosom);
             plans.createPlans();
+            plans.ratePlanInAllDays();
             plans.print();
 	    	
     }

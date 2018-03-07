@@ -50,6 +50,7 @@ public class Plans {
             plans.add(plan);
         }
         
+        
     }
      public void ratePlanInAllDays()
     {

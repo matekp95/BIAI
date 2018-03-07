@@ -31,6 +31,39 @@ public class Plan {
             System.out.println("");
         }
     }
+    public int rateDay(int dzien)
+    {
+        
+        // 2. czy sa przerwy miedzy zajeciami    -1p.
+        // 3. jak dluga przerwa miedzy zajeciami -2p.
+        int counter=0;
+        boolean flag1=false;
+        boolean flagaPoPrzedmiocieNull=false;
+        int numberOfNulls=0;
+       for(int i=0;i<5;i++)
+       {
+            if (table[i][dzien] == null) {
+            } else {
+                flag1 = true;
+            }
+            if (flag1) {
+                if (table[i][dzien] == null) {
+                    flagaPoPrzedmiocieNull = true;
+                    flag1 = false;
+                }
+            }
+            if (flagaPoPrzedmiocieNull) {
+                if (table[i][dzien] != null) {
+                    counter+=numberOfNulls;
+                    numberOfNulls=0;
+                    flagaPoPrzedmiocieNull = false;
+                }
+                numberOfNulls++;
+            }
+        }
+        return counter;
+    }
+    
     public void setField(String number,Integer row, Integer column){
         table[row][column]= number;
     }

@@ -5,6 +5,7 @@
  */
 package biai_console;
 
+
 /**
  *
  * @author Kamil Sowa
