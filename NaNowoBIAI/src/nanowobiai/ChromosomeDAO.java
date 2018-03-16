@@ -116,35 +116,109 @@ public class ChromosomeDAO {
     void createRandomMatrix(){
         
         int randHour;
-        
+       // int counter;
         for (int cl=0;cl<listOfClasses.size();cl++){
             
             for (int i=0;i<listOfClasses.get(cl).getListOfTaughtClasses().size();i++){
                 
+                boolean flag=true;
+                int counter=0;
                 
-                int cLass=listOfClasses.get(cl).getListOfTaughtClasses().get(i);
+                int teacher=listOfClasses.get(cl).getListOfTaughtClasses().get(i);
+                
                 randHour=rand.nextInt(matrix.getColumns());
-                 findTeacherAtHour(cLass, randHour);
-                while ( matrix.getField(cl, randHour) != null  ||  findTeacherAtHour(cLass, randHour))  {
+                findTeacherAtHour(teacher, randHour);
+                 
+                while ( matrix.getField(cl, randHour) != null  ||  findTeacherAtHour(teacher, randHour))  {
+                    counter++;
+                    
                     randHour=rand.nextInt(matrix.getColumns());
+                    if(counter==10)
+                    {
+                        flag=false;
+                           for(int k=0;k<matrix.getColumns();k++)
+                           {
+                           matrix.setField(null, cl , k);
+                          
+                           }
+                    
+                     counter=0;
+                    }
                 }
-                
-                matrix.setField(cLass, cl, randHour);
+                if(!flag)
+                {
+                    int a=10;
+                flag=true;
+                 i=-1;
+                continue;
+                }
+                else
+                matrix.setField(teacher, cl, randHour);
                 
             }
         }
         int cos=2;
        
     }
-    private boolean findTeacherAtHour(int numberOfClass,int hour){
+    private boolean findTeacherAtHour(int numberOfTeacher,int hour){
         
         for (int cl=0;cl<numberofCLasses;cl++){
-            if (matrix.getField(cl, hour)!=null && matrix.getField(cl, hour)==numberOfClass)
+            if (matrix.getField(cl, hour)!=null && matrix.getField(cl, hour)==numberOfTeacher)
                 return true;
         }
         return false;
     }
-            
+        
+    public ChromosomeDAO repairFunction()
+    {
+        for (int i = 0; i < this.getNumberOfClasses(); i++) {
+            for (int j = 0; j < this.getNumberOfHours(); j++) {
+                if (findTeacherAtHour(matrix.getField(i, j), j)) {
+                    // jezeli znalazł powtórzenie w kolumnie, to zerujemy cały wiersz
+                    for (int s = 0; s < matrix.getColumns(); s++) {
+                        matrix.setField(null, i, s);
+                    }
+                    // wyzerowałeś, to teraz napraw
+                    for (int k = 0; k < listOfClasses.get(i).getListOfTaughtClasses().size(); k++) {
+
+                        boolean flag = true;
+                        int counter = 0;
+
+                        int teacher = listOfClasses.get(i).getListOfTaughtClasses().get(k);
+
+                        int randHour = rand.nextInt(matrix.getColumns());
+
+                        while (matrix.getField(k, randHour) != null || findTeacherAtHour(teacher, randHour)) {
+                            counter++;
+
+                            randHour = rand.nextInt(matrix.getColumns());
+                            if (counter == 10) {
+                                flag = false;
+                                for (int h = 0; h < matrix.getColumns(); h++) {
+                                    matrix.setField(null, i, h);
+
+                                }
+
+                                counter = 0;
+                            }
+                        }
+                        if (!flag) {
+                            flag = true;
+                            k = -1;
+                            continue;
+                        } else {
+                            matrix.setField(teacher, i, randHour);
+                        }
+
+                    }
+                }
+            }
+        }
+        
+        
+        
+    return this;
+    }
 
     void printChromosome() {
      
