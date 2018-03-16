@@ -172,47 +172,58 @@ public class ChromosomeDAO {
     public ChromosomeDAO repairFunction()
     {
         for (int i = 0; i < this.getNumberOfClasses(); i++) {
-            for (int j = 0; j < this.getNumberOfHours(); j++) {
-                if (findTeacherAtHour(matrix.getField(i, j), j)) {
+             for (int j=0;j<this.numberOfHours;j++){
+                if (matrix.getField(i, j) != null && findTeacherAtHour(matrix.getField(i, j), j)) {
                     // jezeli znalazł powtórzenie w kolumnie, to zerujemy cały wiersz
                     for (int s = 0; s < matrix.getColumns(); s++) {
                         matrix.setField(null, i, s);
                     }
-                    // wyzerowałeś, to teraz napraw
-                    for (int k = 0; k < listOfClasses.get(i).getListOfTaughtClasses().size(); k++) {
+                    for (int z=0;z<listOfClasses.get(i).getListOfTaughtClasses().size();z++){
 
-                        boolean flag = true;
-                        int counter = 0;
+                        boolean flag=true;
+                        int counter=0;
 
-                        int teacher = listOfClasses.get(i).getListOfTaughtClasses().get(k);
+                        int teacher=listOfClasses.get(i).getListOfTaughtClasses().get(z);
 
-                        int randHour = rand.nextInt(matrix.getColumns());
+                        int randHour=rand.nextInt(matrix.getColumns());
+                        findTeacherAtHour(teacher, randHour);
 
-                        while (matrix.getField(k, randHour) != null || findTeacherAtHour(teacher, randHour)) {
+                        while ( matrix.getField(i, randHour) != null  ||  findTeacherAtHour(teacher, randHour))  {
                             counter++;
 
-                            randHour = rand.nextInt(matrix.getColumns());
-                            if (counter == 10) {
-                                flag = false;
-                                for (int h = 0; h < matrix.getColumns(); h++) {
-                                    matrix.setField(null, i, h);
+                            randHour=rand.nextInt(matrix.getColumns());
+                            if(counter==10)
+                            {
+                                flag=false;
+                                   for(int k=0;k<matrix.getColumns();k++)
+                                   {
+                                   matrix.setField(null, i , k);
 
-                                }
+                                   }
 
-                                counter = 0;
+                             counter=0;
                             }
                         }
-                        if (!flag) {
-                            flag = true;
-                            k = -1;
-                            continue;
-                        } else {
-                            matrix.setField(teacher, i, randHour);
+                        if(!flag)
+                        {
+                            int a=10;
+                        flag=true;
+                         z=-1;
+                        continue;
                         }
+                        else
+                        matrix.setField(teacher, i, randHour);
 
                     }
+                    break;
+                    
                 }
-            }
+                
+             }
+          
+
+                    
+              
         }
         
         
