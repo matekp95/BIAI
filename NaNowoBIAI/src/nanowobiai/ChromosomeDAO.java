@@ -16,11 +16,12 @@ import static nanowobiai.ConstansInterface.ANSI_RESET;
  * @author Kamil Sowa
  */
 public class ChromosomeDAO {
+
     private Integer id;
     private Matrix matrix;
-    private Random rand=new Random();
+    private Random rand = new Random();
     private List<CLass> listOfClasses;
-    private int rateOfChromosome=0;
+    private int rateOfChromosome = 0;
     private float probabilityOfExistance;
 
     public Integer getId() {
@@ -91,176 +92,198 @@ public class ChromosomeDAO {
     private Integer numberofCLasses;
     private DAO dao;
 
-    public ChromosomeDAO(Integer id ,Integer numberofTeachers, Integer numberOfHours, Integer numberOfClasses) {
+    public ChromosomeDAO(Integer id, Integer numberofTeachers, Integer numberOfHours, Integer numberOfClasses) {
         this.numberOfTeachers = numberofTeachers;
         this.numberOfHours = numberOfHours;
         this.numberofCLasses = numberOfClasses;
-        this.id=id;
-       
-        DAO dao=new DAO();
-        this.listOfClasses=dao.getClasses();
-        matrix=new Matrix(numberOfClasses,numberOfHours);
+        this.id = id;
+
+        DAO dao = new DAO();
+        this.listOfClasses = dao.getClasses();
+        matrix = new Matrix(numberOfClasses, numberOfHours);
     }
+
     public ChromosomeDAO(ChromosomeDAO chromosom) {
         this.numberOfTeachers = chromosom.getNumberOfTeachers();
         this.numberOfHours = chromosom.getNumberOfHours();
         this.numberofCLasses = chromosom.getNumberofCLasses();
-        this.id=chromosom.getId();
-       
-        DAO dao=new DAO();
-        this.listOfClasses=dao.getClasses();
-        matrix=new Matrix(chromosom.getMatrix(),this.numberofCLasses,this.numberOfHours);
+        this.id = chromosom.getId();
+
+        DAO dao = new DAO();
+        this.listOfClasses = dao.getClasses();
+        matrix = new Matrix(chromosom.getMatrix(), this.numberofCLasses, this.numberOfHours);
     }
-  
-    
-    void createRandomMatrix(){
-        
+
+    void createRandomMatrix() {
+
         int randHour;
-       // int counter;
-        for (int cl=0;cl<listOfClasses.size();cl++){
-            
-            for (int i=0;i<listOfClasses.get(cl).getListOfTaughtClasses().size();i++){
-                
-                boolean flag=true;
-                int counter=0;
-                
-                int teacher=listOfClasses.get(cl).getListOfTaughtClasses().get(i);
-                
-                randHour=rand.nextInt(matrix.getColumns());
+        // int counter;
+        for (int cl = 0; cl < listOfClasses.size(); cl++) {
+
+            for (int i = 0; i < listOfClasses.get(cl).getListOfTaughtClasses().size(); i++) {
+
+                boolean flag = true;
+                int counter = 0;
+
+                int teacher = listOfClasses.get(cl).getListOfTaughtClasses().get(i);
+
+                randHour = rand.nextInt(matrix.getColumns());
                 findTeacherAtHour(teacher, randHour);
-                 
-                while ( matrix.getField(cl, randHour) != null  ||  findTeacherAtHour(teacher, randHour))  {
+
+                while (matrix.getField(cl, randHour) != null || findTeacherAtHour(teacher, randHour)) {
                     counter++;
-                    
-                    randHour=rand.nextInt(matrix.getColumns());
-                    if(counter==10)
-                    {
-                        flag=false;
-                           for(int k=0;k<matrix.getColumns();k++)
-                           {
-                           matrix.setField(null, cl , k);
-                          
-                           }
-                    
-                     counter=0;
+
+                    randHour = rand.nextInt(matrix.getColumns());
+                    if (counter == 10) {
+                        flag = false;
+                        for (int k = 0; k < matrix.getColumns(); k++) {
+                            matrix.setField(null, cl, k);
+
+                        }
+
+                        counter = 0;
                     }
                 }
-                if(!flag)
-                {
-                    int a=10;
-                flag=true;
-                 i=-1;
-                continue;
+                if (!flag) {
+                    int a = 10;
+                    flag = true;
+                    i = -1;
+                    continue;
+                } else {
+                    matrix.setField(teacher, cl, randHour);
                 }
-                else
-                matrix.setField(teacher, cl, randHour);
-                
+
             }
         }
-        int cos=2;
-       
+        int cos = 2;
+
     }
-    private boolean findTeacherAtHour(int numberOfTeacher,int hour){
-        
-        for (int cl=0;cl<numberofCLasses;cl++){
-            if (matrix.getField(cl, hour)!=null && matrix.getField(cl, hour)==numberOfTeacher)
+
+    private boolean findTeacherAtHour(int numberOfTeacher, int hour) {
+
+        for (int cl = 0; cl < numberofCLasses; cl++) {
+            if (matrix.getField(cl, hour) != null && matrix.getField(cl, hour) == numberOfTeacher) {
                 return true;
+            }
         }
         return false;
     }
-        
-    public ChromosomeDAO repairFunction()
-    {
+
+    public ChromosomeDAO repairFunction() {
         for (int i = 0; i < this.getNumberOfClasses(); i++) {
-             for (int j=0;j<this.numberOfHours;j++){
+            for (int j = 0; j < this.numberOfHours; j++) {
                 if (matrix.getField(i, j) != null && findTeacherAtHour(matrix.getField(i, j), j)) {
                     // jezeli znalazł powtórzenie w kolumnie, to zerujemy cały wiersz
                     for (int s = 0; s < matrix.getColumns(); s++) {
                         matrix.setField(null, i, s);
                     }
-                    for (int z=0;z<listOfClasses.get(i).getListOfTaughtClasses().size();z++){
+                    for (int z = 0; z < listOfClasses.get(i).getListOfTaughtClasses().size(); z++) {
 
-                        boolean flag=true;
-                        int counter=0;
+                        boolean flag = true;
+                        int counter = 0;
 
-                        int teacher=listOfClasses.get(i).getListOfTaughtClasses().get(z);
+                        int teacher = listOfClasses.get(i).getListOfTaughtClasses().get(z);
 
-                        int randHour=rand.nextInt(matrix.getColumns());
+                        int randHour = rand.nextInt(matrix.getColumns());
                         findTeacherAtHour(teacher, randHour);
 
-                        while ( matrix.getField(i, randHour) != null  ||  findTeacherAtHour(teacher, randHour))  {
+                        while (matrix.getField(i, randHour) != null || findTeacherAtHour(teacher, randHour)) {
                             counter++;
 
-                            randHour=rand.nextInt(matrix.getColumns());
-                            if(counter==10)
-                            {
-                                flag=false;
-                                   for(int k=0;k<matrix.getColumns();k++)
-                                   {
-                                   matrix.setField(null, i , k);
+                            randHour = rand.nextInt(matrix.getColumns());
+                            if (counter == 10) {
+                                flag = false;
+                                for (int k = 0; k < matrix.getColumns(); k++) {
+                                    matrix.setField(null, i, k);
 
-                                   }
+                                }
 
-                             counter=0;
+                                counter = 0;
                             }
                         }
-                        if(!flag)
-                        {
-                            int a=10;
-                        flag=true;
-                         z=-1;
-                        continue;
+                        if (!flag) {
+                            int a = 10;
+                            flag = true;
+                            z = -1;
+                            continue;
+                        } else {
+                            matrix.setField(teacher, i, randHour);
                         }
-                        else
-                        matrix.setField(teacher, i, randHour);
 
                     }
                     break;
-                    
-                }
-                
-             }
-          
 
-                    
-              
+                }
+
+            }
+
         }
-        
-        
-        
-    return this;
+
+        return this;
     }
 
+    public ChromosomeDAO mutationFunction()
+    {
+        Random rand = new Random();
+        int switchFunc = rand.nextInt(numberOfHours); // losujemy od 0 do 4
+        int whichColumn;
+        System.out.println("MUTACJA NUMER " + switchFunc);
+        this.printChromosome();
+        
+        for(int i=0;i<switchFunc+1;i++)
+        {
+        whichColumn=rand.nextInt(numberOfHours-1); // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
+        // wypadło na ostatnia kolumne to lipa bedzie.
+        switchColumn(whichColumn,whichColumn+1);
+        }
+
+        System.out.println("PO MUTACJI ");
+        this.printChromosome();
+        return this;
+    }
+      
+    private void switchColumn(int firstColumn, int secondColumn) {
+        Integer tempValue = 0;
+        
+        for (int i = 0; i < this.getNumberOfClasses(); i++) {            
+            for (int j = 0; j < this.getNumberOfHours(); j++) {      
+                if(j == firstColumn)
+                {
+                    tempValue=this.matrix.getField(i, secondColumn);
+                    this.matrix.setField(this.matrix.getField(i, firstColumn), i, secondColumn);
+                    this.matrix.setField(tempValue, i, firstColumn);
+                }
+            }
+        }
+    }
+    
     void printChromosome() {
-     
-        System.out.println("chromosome id: "+id);
+
+        System.out.println("chromosome id: " + id);
         matrix.matrixPrint();
         printRating();
     }
-    void printTeachersClasses(){
-        
+
+    void printTeachersClasses() {
+
         if (!listOfClasses.isEmpty()) {
-            for (CLass t: listOfClasses){
+            for (CLass t : listOfClasses) {
                 t.print();
             }
         }
         System.out.println();
-        
-        
-        
+
     }
-    
-    public void rateDay(int CLassNumber)
-    {
-    
+
+    public void rateDay(int CLassNumber) {
+
         // 2. czy sa przerwy miedzy zajeciami    -1p.
         // 3. jak dluga przerwa miedzy zajeciami -2p.
-        int counter=0;
-        boolean flag1=false;
-        boolean flagaPoPrzedmiocieNull=false;
-        int numberOfNulls=0;
-       for(int i=0;i<5;i++)
-       {
+        int counter = 0;
+        boolean flag1 = false;
+        boolean flagaPoPrzedmiocieNull = false;
+        int numberOfNulls = 0;
+        for (int i = 0; i < 5; i++) {
             if (matrix.getField(CLassNumber, i) == null) {
             } else {
                 flag1 = true;
@@ -273,34 +296,28 @@ public class ChromosomeDAO {
             }
             if (flagaPoPrzedmiocieNull) {
                 if (matrix.getField(CLassNumber, i) != null) {
-                    counter+=numberOfNulls;
-                    numberOfNulls=0;
+                    counter += numberOfNulls;
+                    numberOfNulls = 0;
                     flagaPoPrzedmiocieNull = false;
                 }
                 numberOfNulls++;
             }
         }
         listOfClasses.get(CLassNumber).setRate(counter);
-        rateOfChromosome+=counter;
+        rateOfChromosome += counter;
     }
-    
-    
-    
-   public void rateChromosome()
-   {
-       for (CLass klasa:listOfClasses)
-       {
-           rateDay(klasa.getId());
-       }
-   }
-   public void setCLassPlan(int classId,Integer[] classes)
-   {
-       for (int i=0;i<5;i++)
-       {
-           matrix.setField(classes[i] , classId, i);
-       }
-   }
-    
+
+    public void rateChromosome() {
+        for (CLass klasa : listOfClasses) {
+            rateDay(klasa.getId());
+        }
+    }
+
+    public void setCLassPlan(int classId, Integer[] classes) {
+        for (int i = 0; i < 5; i++) {
+            matrix.setField(classes[i], classId, i);
+        }
+    }
 
     public Matrix getMatrix() {
         return matrix;
@@ -333,16 +350,16 @@ public class ChromosomeDAO {
     public void setNumberOfHours(Integer numberOfHours) {
         this.numberOfHours = numberOfHours;
     }
-    public void printRatings()
-    {
-        for (int i=0;i<4;i++)
-        {
-            System.out.println(i+": "+ listOfClasses.get(i).getRate() );
+
+    public void printRatings() {
+        for (int i = 0; i < 4; i++) {
+            System.out.println(i + ": " + listOfClasses.get(i).getRate());
         }
     }
-    public void printRating()
-    {
-        System.out.println(ANSI_RED+ "Rating: "+this.rateOfChromosome +ANSI_RESET);
+
+    public void printRating() {
+        System.out.println(ANSI_RED + "Rating: " + this.rateOfChromosome + ANSI_RESET);
     }
-    
+
+
 }
