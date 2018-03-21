@@ -23,7 +23,28 @@ public class ChromosomeDAO {
     private List<CLass> listOfClasses;
     private int rateOfChromosome = 0;
     private float probabilityOfExistance;
+    private Integer numberOfTeachers;
+    private Integer numberOfHours;
+    private Integer numberOfCLasses;
+    private DAO dao;
 
+    public Integer getNumberOfTeachers() {
+        return numberOfTeachers;
+    }
+
+    public void setNumberOfTeachers(Integer numberOfTeachers) {
+        this.numberOfTeachers = numberOfTeachers;
+    }
+
+    public Integer getNumberOfCLasses() {
+        return numberOfCLasses;
+    }
+
+    public void setNumberofCLasses(Integer numberOfCLasses) {
+        this.numberOfCLasses = numberOfCLasses;
+    }
+
+    
     public Integer getId() {
         return id;
     }
@@ -64,21 +85,6 @@ public class ChromosomeDAO {
         this.listOfClasses = listOfClasses;
     }
 
-    public Integer getNumberOfTeachers() {
-        return numberOfTeachers;
-    }
-
-    public void setNumberOfTeachers(Integer numberOfTeachers) {
-        this.numberOfTeachers = numberOfTeachers;
-    }
-
-    public Integer getNumberofCLasses() {
-        return numberofCLasses;
-    }
-
-    public void setNumberofCLasses(Integer numberofCLasses) {
-        this.numberofCLasses = numberofCLasses;
-    }
 
     public DAO getDao() {
         return dao;
@@ -87,15 +93,12 @@ public class ChromosomeDAO {
     public void setDao(DAO dao) {
         this.dao = dao;
     }
-    private Integer numberOfTeachers;
-    private Integer numberOfHours;
-    private Integer numberofCLasses;
-    private DAO dao;
+  
 
     public ChromosomeDAO(Integer id, Integer numberofTeachers, Integer numberOfHours, Integer numberOfClasses) {
         this.numberOfTeachers = numberofTeachers;
         this.numberOfHours = numberOfHours;
-        this.numberofCLasses = numberOfClasses;
+        this.numberOfCLasses = numberOfClasses;
         this.id = id;
 
         DAO dao = new DAO();
@@ -106,12 +109,12 @@ public class ChromosomeDAO {
     public ChromosomeDAO(ChromosomeDAO chromosom) {
         this.numberOfTeachers = chromosom.getNumberOfTeachers();
         this.numberOfHours = chromosom.getNumberOfHours();
-        this.numberofCLasses = chromosom.getNumberofCLasses();
+        this.numberOfCLasses = chromosom.getNumberOfCLasses();
         this.id = chromosom.getId();
 
         DAO dao = new DAO();
         this.listOfClasses = dao.getClasses();
-        matrix = new Matrix(chromosom.getMatrix(), this.numberofCLasses, this.numberOfHours);
+        matrix = new Matrix(chromosom.getMatrix(), this.numberOfCLasses, this.numberOfHours);
     }
 
     void createRandomMatrix() {
@@ -161,7 +164,7 @@ public class ChromosomeDAO {
 
     private boolean findTeacherAtHour(int numberOfTeacher, int hour) {
 
-        for (int cl = 0; cl < numberofCLasses; cl++) {
+        for (int cl = 0; cl < numberOfCLasses; cl++) {
             if (matrix.getField(cl, hour) != null && matrix.getField(cl, hour) == numberOfTeacher) {
                 return true;
             }
@@ -170,7 +173,7 @@ public class ChromosomeDAO {
     }
 
     public ChromosomeDAO repairFunction() {
-        for (int i = 0; i < this.getNumberOfClasses(); i++) {
+        for (int i = 0; i < this.getNumberOfCLasses(); i++) {
             for (int j = 0; j < this.numberOfHours; j++) {
                 if (matrix.getField(i, j) != null && findTeacherAtHour(matrix.getField(i, j), j)) {
                     // jezeli znalazł powtórzenie w kolumnie, to zerujemy cały wiersz
@@ -245,7 +248,7 @@ public class ChromosomeDAO {
     private void switchColumn(int firstColumn, int secondColumn) {
         Integer tempValue = 0;
         
-        for (int i = 0; i < this.getNumberOfClasses(); i++) {            
+        for (int i = 0; i < this.getNumberOfCLasses(); i++) {            
             for (int j = 0; j < this.getNumberOfHours(); j++) {      
                 if(j == firstColumn)
                 {
@@ -327,21 +330,7 @@ public class ChromosomeDAO {
         this.matrix = matrix;
     }
 
-    public Integer getNumberOfClasses() {
-        return numberOfTeachers;
-    }
 
-    public void setNumberOfClasses(Integer numberOfClasses) {
-        this.numberOfTeachers = numberOfClasses;
-    }
-
-    public Integer getNumberofTeachers() {
-        return numberofCLasses;
-    }
-
-    public void setNumberofTeachers(Integer numberofTeachers) {
-        this.numberofCLasses = numberofTeachers;
-    }
 
     public Integer getNumberOfHours() {
         return matrix.getColumns();

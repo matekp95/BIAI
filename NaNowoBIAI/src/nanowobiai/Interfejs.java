@@ -9,6 +9,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import viewClasses.Plans;
+import viewClasses.PlansCreator;
 /**
  *
  * @author Kamil
@@ -18,6 +20,14 @@ public class Interfejs {
     public static void main(String[] args) {
            Populacja p=new Populacja();
            p.symulacja();
+          /* Plans pl=new Plans(p.getChromosomy().get(0));
+           p.getChromosomy().get(0).printChromosome();
+           pl.print();
+          */
+           
+           PlansCreator pc=new PlansCreator(p);
+           pc.toString();
+          
            
     }
 

@@ -36,15 +36,16 @@ public class Plans {
         teacherNames.add("C");
         teacherNames.add("D");
         teacherNames.add("E");
+        createPlans();
     }
-    public void createPlans(){
+    private void createPlans(){
         Plan plan;
-        for (int i=1;i<numberOfHours+1;i++){
-            plan= new Plan(numberofTeachers, 1);
+        for (int i=0;i<numberOfClasses;i++){
+            plan= new Plan(numberOfHours, 1);
             
-            for (int j=0;j<numberOfClasses;j++){
+            for (int j=1;j<numberofTeachers+1;j++){
                  for (int z=0;z<numberOfHours;z++){
-                     if (chromosome.getMatrix().getField(j, z)!=null && chromosome.getMatrix().getField(j, z)==i){
+                     if (chromosome.getMatrix().getField(i, z)!=null && chromosome.getMatrix().getField(i, z)==j){
                          plan.setField(teacherNames.get(j), z, 0);
                      }
                 }
@@ -59,7 +60,6 @@ public class Plans {
         int i=0;
         for (Plan plan : plans){
             plan.matrixPrint();
-            System.out.println(rates.get(i));
             i++;
             System.out.println();
         }

@@ -13,6 +13,7 @@ import static nanowobiai.ConstansInterface.NUMBER_OF_CHROMOSOMES;
 import static nanowobiai.ConstansInterface.NUMBER_OF_CLASSES;
 import static nanowobiai.ConstansInterface.NUMBER_OF_HOURS;
 import static nanowobiai.ConstansInterface.NUMBER_OF_TEACHERS;
+import viewClasses.Plans;
 /**
  *
  * @author Kamil Sowa
@@ -20,7 +21,27 @@ import static nanowobiai.ConstansInterface.NUMBER_OF_TEACHERS;
 public class Populacja {
     Float[] RuletteWheel;
      private List<ChromosomeDAO> chromosomy=new ArrayList<ChromosomeDAO>();
-     
+
+    public Float[] getRuletteWheel() {
+        return RuletteWheel;
+    }
+
+    public void setRuletteWheel(Float[] RuletteWheel) {
+        this.RuletteWheel = RuletteWheel;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public List<ChromosomeDAO> getChromosomy() {
+        return chromosomy;
+    }
+
+    public void setChromosomy(List<ChromosomeDAO> chromosomy) {
+        this.chromosomy = chromosomy;
+    }
+         
      
     public Populacja(){
         RuletteWheel=new Float[NUMBER_OF_CHROMOSOMES];
@@ -45,13 +66,13 @@ public class Populacja {
             ch.rateChromosome();
             ch.printChromosome();
            }
-         //  for (int i=0;i<4;i++){
+           for (int i=0;i<1;i++){
               rateAllChromosome();
               if (setAllChromosomeProbabiltyOfExistance())   { 
                      createNewPopulationBasedOnRouletteWheel();
                 }
               crossingOverAllPopulation();
-         //  }
+          }
             
 //          for (ChromosomeDAO ch: chromosomy)
 //           {
@@ -156,6 +177,11 @@ public class Populacja {
         // sprawdzenie powtórzeń
         repairingFunction();
         
+        
+        for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
+            chromosomy.get(i).setId(i);
+        }
+        
     }
     
     public void repairingFunction()
@@ -173,7 +199,7 @@ public class Populacja {
             chrNowy.setCLassPlan(i, chr1.getMatrix().getSingleRow(i));
             chrNowy2.setCLassPlan(i, chr2.getMatrix().getSingleRow(i));
         }
-        for(int i=rowCountFromParent1;i<chr1.getNumberOfClasses();i++)
+        for(int i=rowCountFromParent1;i<chr1.getNumberOfCLasses();i++)
         {
             chrNowy.setCLassPlan(i, chr2.getMatrix().getSingleRow(i));
             chrNowy2.setCLassPlan(i, chr1.getMatrix().getSingleRow(i));
@@ -308,5 +334,6 @@ public class Populacja {
             chr.rateChromosome();
         }
     }
+
             
 }
