@@ -301,7 +301,7 @@ public class ChromosomeDAO {
 
     }
 
-    public void rateDay(int CLassNumber) {
+    public void rateDay(int CLassNumber, int startingDayPoint) {
 
         // 2. czy sa przerwy miedzy zajeciami    -1p.
         // 3. jak dluga przerwa miedzy zajeciami -2p.
@@ -309,7 +309,7 @@ public class ChromosomeDAO {
         boolean flag1 = false;
         boolean flagaPoPrzedmiocieNull = false;
         int numberOfNulls = 0;
-        for (int i = 0; i < numberOfColumnsInChromosome; i++) {
+        for (int i = startingDayPoint; i < startingDayPoint+numberOfHours; i++) {
             if (matrix.getField(CLassNumber, i) == null) {
             } else {
                 flag1 = true;
@@ -338,7 +338,11 @@ public class ChromosomeDAO {
     public void rateChromosome() {
         rateOfChromosome=0;
         for (CLass klasa : listOfClasses) {
-            rateDay(klasa.getId());
+            for (int i=0;i<numberOfDays;i++)
+            {
+                rateDay(klasa.getId(),i*numberOfHours);
+            }
+            
         }
     }
 
