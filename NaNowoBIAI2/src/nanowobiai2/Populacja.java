@@ -84,12 +84,12 @@ public class Populacja {
           // losujemy jaka czesc populacji krzyżować
           //crossingOverAllPopulation();
           // crossing, when rand 0-25 then 1-3, 25-75 then 2-2, 75-100 then 3-1
-//          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
-//            for (ChromosomeDAO ch: chromosomy)
-//           {
-//            ch.rateChromosome();
-//            ch.printChromosome();
-//           }
+          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
+            for (ChromosomeDAO ch: chromosomy)
+           {
+            ch.rateChromosome();
+            ch.printChromosome();
+           }
             
     }
     
@@ -101,6 +101,7 @@ public class Populacja {
         List<ChromosomeDAO> tempArrayShow = new ArrayList<>();
         Random rand=new Random();
        int randomowa;
+       int pointOfIntersection;
         
         List<Integer> listOfId = new ArrayList<>();
        for(int i=0;i<NUMBER_OF_CHROMOSOMES;i++)
@@ -112,7 +113,40 @@ public class Populacja {
             ChromosomeDAO chr1 = chromosomy.get(listOfId.get(i));
             ChromosomeDAO chr2 = chromosomy.get(listOfId.get(i+1));
             randomowa = rand.nextInt(100);
-            if(randomowa<25)
+            pointOfIntersection=rand.nextInt(NUMBER_OF_CLASSES-1)+1;
+            
+            
+            
+            
+            
+            
+            System.out.println(" RAND < 25 ");
+  
+//            System.out.println("PIERWSZY CHROMOSOM DO KRZYZOWANIA" );
+//            chr1.printChromosome();
+//            System.out.println("DRUGI CHROMOSOM DO KRZYZOWANIA" );
+//            chr2.printChromosome();
+//            System.out.println("point of intersection: "+pointOfIntersection);
+            tempArrayShow.addAll(crossingOver(chr1,chr2,chr1.getId(),chr2.getId(),pointOfIntersection));
+            tempArray.addAll(tempArrayShow);
+            
+            System.out.println("PO KRZYZOWANIU 1");
+            tempArrayShow.get(0).printChromosome();
+            System.out.println("PO KRZYZOWANIU  2");
+            tempArrayShow.get(1).printChromosome();
+            tempArrayShow.clear();
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+          /*  if(randomowa<25)
             {
 //            System.out.println(" RAND < 25 ");
 //  
@@ -134,18 +168,18 @@ public class Populacja {
             {
                 System.out.println(" RAND < 75 ");
            
-            System.out.println("PIERWSZY CHROMOSOM DO KRZYZOWANIA" );
-            chr1.printChromosome();
-            System.out.println("DRUGI CHROMOSOM DO KRZYZOWANIA" );
-            chr2.printChromosome();
+//            System.out.println("PIERWSZY CHROMOSOM DO KRZYZOWANIA" );
+//            chr1.printChromosome();
+//            System.out.println("DRUGI CHROMOSOM DO KRZYZOWANIA" );
+//            chr2.printChromosome();
             
            tempArrayShow.addAll(crossingOver(chr1,chr2,chr1.getId(),chr2.getId(),2));
             tempArray.addAll(tempArrayShow);
             
-            System.out.println("PO KRZYZOWANIU 1");
-            tempArrayShow.get(0).printChromosome();
-            System.out.println("PO KRZYZOWANIU  2");
-            tempArrayShow.get(1).printChromosome();
+//            System.out.println("PO KRZYZOWANIU 1");
+//            tempArrayShow.get(0).printChromosome();
+//            System.out.println("PO KRZYZOWANIU  2");
+//            tempArrayShow.get(1).printChromosome();
             tempArrayShow.clear();
             }
             else
@@ -166,8 +200,9 @@ public class Populacja {
 //            tempArrayShow.get(1).printChromosome();
             tempArrayShow.clear();
             }
-            
+         */   
         }
+        
         chromosomy.clear();
 //        for(int i=0;i<NUMBER_OF_CHROMOSOMES;i++)
 //        {
