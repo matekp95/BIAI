@@ -26,7 +26,12 @@ public class Plan {
     public void matrixPrint(){
         for (String[] row: table){
             for (String field: row){
-                System.out.print(field+" ");
+                if (field==null)
+                {
+                    System.out.print("n ");
+                }
+                else
+                    System.out.print(field+" ");
             }
             System.out.println("");
         }

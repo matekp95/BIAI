@@ -20,10 +20,10 @@ public class Interfejs {
     public static void main(String[] args) {
            Populacja p=new Populacja();
            p.symulacja();
-          /* Plans pl=new Plans(p.getChromosomy().get(0));
+           Plans pl=new Plans(p.getChromosomy().get(0));
            p.getChromosomy().get(0).printChromosome();
            pl.print();
-          */
+          
 //           
 //           PlansCreator pc=new PlansCreator(p);
 //           pc.toString();

@@ -18,6 +18,7 @@ public class Plans {
     private List<Plan> plans;
     private Integer numberOfClasses;
     private Integer numberOfHours;
+    private Integer numberOfDays;
     private Integer numberofTeachers;
     private List<String> teacherNames;
     private List<Integer> rates;
@@ -28,6 +29,7 @@ public class Plans {
         this.numberOfClasses=chromosome.getNumberOfCLasses();
         this.numberOfHours=chromosome.getNumberOfHours();
         this.numberofTeachers=chromosome.getNumberOfTeachers();
+        this.numberOfDays=chromosome.getNumberOfDays();
         this.rates=new ArrayList<Integer>();
         this.plans=new ArrayList<Plan>();
         teacherNames=new ArrayList<String>();
@@ -40,13 +42,17 @@ public class Plans {
     }
     private void createPlans(){
         Plan plan;
+        int day;
+        int hour;
         for (int i=0;i<numberOfClasses;i++){
-            plan= new Plan(numberOfHours, 1);
+            plan= new Plan(numberOfHours, numberOfDays);
             
             for (int j=1;j<numberofTeachers+1;j++){
-                 for (int z=0;z<numberOfHours;z++){
+                 for (int z=0;z<numberOfHours*numberOfDays;z++){
                      if (chromosome.getMatrix().getField(i, z)!=null && chromosome.getMatrix().getField(i, z)==j){
-                         plan.setField(teacherNames.get(j), z, 0);
+                         hour=z%numberOfHours;
+                         day=z/numberOfHours;
+                         plan.setField(teacherNames.get(j-1), hour, day);
                      }
                 }
             }
@@ -59,6 +65,7 @@ public class Plans {
     public void print(){
         int i=0;
         for (Plan plan : plans){
+            System.out.println("Plany dla chromosomu"+chromosome.getId());
             plan.matrixPrint();
             i++;
             System.out.println();
