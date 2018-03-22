@@ -51,13 +51,10 @@ public class Populacja {
                      createNewPopulationBasedOnRouletteWheel();
                 }
               crossingOverAllPopulation();
+              
          //  }
             
-//          for (ChromosomeDAO ch: chromosomy)
-//           {
-//            ch.rateChromosome();
-//            ch.printChromosome();
-//           }
+
             
           // losujemy jaka czesc populacji krzyżować
           //crossingOverAllPopulation();
@@ -65,6 +62,7 @@ public class Populacja {
           System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
             for (ChromosomeDAO ch: chromosomy)
            {
+               ch.mutationFunction();
             ch.rateChromosome();
             ch.printChromosome();
            }
