@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nanowobiai;
+package nanowobiai2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static nanowobiai.ConstansInterface.ANSI_RED;
-import static nanowobiai.ConstansInterface.ANSI_RESET;
+import static nanowobiai2.ConstansInterface.ANSI_RED;
+import static nanowobiai2.ConstansInterface.ANSI_RESET;
 
 /**
  *
@@ -26,8 +26,27 @@ public class ChromosomeDAO {
     private Integer numberOfTeachers;
     private Integer numberOfHours;
     private Integer numberOfCLasses;
+    private Integer numberOfDays;
+    private Integer numberOfColumnsInChromosome;
     private DAO dao;
 
+    public Integer getNumberOfDays() {
+        return numberOfDays;
+    }
+
+    public void setNumberOfDays(Integer numberOfDays) {
+        this.numberOfDays = numberOfDays;
+    }
+
+    public Integer getNumberOfColumnsInChromosome() {
+        return numberOfColumnsInChromosome;
+    }
+
+    public void setNumberOfColumnsInChromosome(Integer numberOfColumnsInChromosome) {
+        this.numberOfColumnsInChromosome = numberOfColumnsInChromosome;
+    }
+
+    
     public Integer getNumberOfTeachers() {
         return numberOfTeachers;
     }
@@ -95,29 +114,33 @@ public class ChromosomeDAO {
     }
   
 
-    public ChromosomeDAO(Integer id, Integer numberofTeachers, Integer numberOfHours, Integer numberOfClasses) {
+    public ChromosomeDAO(Integer id, Integer numberofTeachers, Integer numberOfHours, Integer numberOfClasses,Integer numberOfDays) {
         this.numberOfTeachers = numberofTeachers;
         this.numberOfHours = numberOfHours;
         this.numberOfCLasses = numberOfClasses;
+        this.numberOfDays=numberOfDays;
+        this.numberOfColumnsInChromosome=numberOfDays*numberOfHours;
         this.id = id;
 
         DAO dao = new DAO();
         this.listOfClasses = dao.getClasses();
-        matrix = new Matrix(numberOfClasses, numberOfHours);
+        matrix = new Matrix(numberOfClasses, numberOfColumnsInChromosome);
     }
 
     public ChromosomeDAO(ChromosomeDAO chromosom) {
         this.numberOfTeachers = chromosom.getNumberOfTeachers();
         this.numberOfHours = chromosom.getNumberOfHours();
         this.numberOfCLasses = chromosom.getNumberOfCLasses();
+        this.numberOfDays=chromosom.getNumberOfDays();
+        this.numberOfColumnsInChromosome=chromosom.getNumberOfColumnsInChromosome();
         this.id = chromosom.getId();
 
         DAO dao = new DAO();
         this.listOfClasses = dao.getClasses();
-        matrix = new Matrix(chromosom.getMatrix(), this.numberOfCLasses, this.numberOfHours);
+        matrix = new Matrix(chromosom.getMatrix(), this.numberOfCLasses, this.numberOfColumnsInChromosome);
     }
 
-    void createRandomMatrix() {
+    public void createRandomMatrix() {
 
         int randHour;
         // int counter;
@@ -174,7 +197,7 @@ public class ChromosomeDAO {
 
     public ChromosomeDAO repairFunction() {
         for (int i = 0; i < this.getNumberOfCLasses(); i++) {
-            for (int j = 0; j < this.numberOfHours; j++) {
+            for (int j = 0; j < this.numberOfColumnsInChromosome; j++) {
                 if (matrix.getField(i, j) != null && findTeacherAtHour(matrix.getField(i, j), j)) {
                     // jezeli znalazł powtórzenie w kolumnie, to zerujemy cały wiersz
                     for (int s = 0; s < matrix.getColumns(); s++) {
@@ -225,31 +248,40 @@ public class ChromosomeDAO {
         return this;
     }
 
-    public ChromosomeDAO mutationFunction()
+    public ChromosomeDAO mutateChromosome()
     {
-        Random rand = new Random();
-        int switchFunc = rand.nextInt(numberOfHours); // losujemy od 0 do 4
-        int whichColumn;
-        System.out.println("MUTACJA NUMER " + switchFunc);
+        System.out.println("Przed mutacją");
         this.printChromosome();
-        
-        for(int i=0;i<switchFunc+1;i++)
-        {
-        whichColumn=rand.nextInt(numberOfHours-1); // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
-        // wypadło na ostatnia kolumne to lipa bedzie.
-        switchColumn(whichColumn,whichColumn+1);
-        }
-
-        System.out.println("PO MUTACJI ");
+        for (int i=0;i<numberOfDays;i++)
+            {
+                mutateDay(i*numberOfHours,numberOfHours);
+            }
+        System.out.println("Po mutacji");
+        this.rateChromosome();
         this.printChromosome();
         return this;
+    }
+    public void mutateDay(int startingDayPoint,int endDayPoint)
+    {
+        Random rand = new Random();
+        int switchFunc = rand.nextInt(numberOfHours); // losujemy ile kolumn chcemy zmienic
+        int whichColumn,randomColumn;
+
+        for(int i=0;i<switchFunc+1;i++)
+        {
+        whichColumn=rand.nextInt(numberOfHours-1)+startingDayPoint; // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
+        // wypadło na ostatnia kolumne to lipa bedzie.
+        randomColumn=rand.nextInt(numberOfHours-1)+startingDayPoint;
+        if(whichColumn == randomColumn)randomColumn+=1;
+        switchColumn(whichColumn,randomColumn);
+        }
     }
       
     private void switchColumn(int firstColumn, int secondColumn) {
         Integer tempValue = 0;
-        
-        for (int i = 0; i < this.getNumberOfCLasses(); i++) {            
-            for (int j = 0; j < this.getNumberOfHours(); j++) {      
+        System.out.println("Kolumna: "+firstColumn+" z: "+secondColumn);
+        for (int i = 0; i < this.numberOfCLasses; i++) {            
+            for (int j = 0; j < this.numberOfColumnsInChromosome; j++) {      
                 if(j == firstColumn)
                 {
                     tempValue=this.matrix.getField(i, secondColumn);
@@ -260,10 +292,10 @@ public class ChromosomeDAO {
         }
     }
     
-    void printChromosome() {
+    public void printChromosome() {
 
         System.out.println("chromosome id: " + id);
-        matrix.matrixPrint();
+        matrix.matrixPrint(numberOfHours);
         printRating();
     }
 
@@ -278,7 +310,7 @@ public class ChromosomeDAO {
 
     }
 
-    public void rateDay(int CLassNumber) {
+    public void rateDay(int CLassNumber, int startingDayPoint) {
 
         // 2. czy sa przerwy miedzy zajeciami    -1p.
         // 3. jak dluga przerwa miedzy zajeciami -2p.
@@ -286,10 +318,11 @@ public class ChromosomeDAO {
         boolean flag1 = false;
         boolean flagaPoPrzedmiocieNull = false;
         int numberOfNulls = 0;
-        for (int i = 0; i < 5; i++) {
+        for (int i = startingDayPoint; i < startingDayPoint+numberOfHours; i++) {
             if (matrix.getField(CLassNumber, i) == null) {
             } else {
                 flag1 = true;
+                
             }
             if (flag1) {
                 if (matrix.getField(CLassNumber, i) == null) {
@@ -303,7 +336,8 @@ public class ChromosomeDAO {
                     numberOfNulls = 0;
                     flagaPoPrzedmiocieNull = false;
                 }
-                numberOfNulls++;
+                else
+                    numberOfNulls++;
             }
         }
         listOfClasses.get(CLassNumber).setRate(counter);
@@ -311,13 +345,18 @@ public class ChromosomeDAO {
     }
 
     public void rateChromosome() {
+        rateOfChromosome=0;
         for (CLass klasa : listOfClasses) {
-            rateDay(klasa.getId());
+            for (int i=0;i<numberOfDays;i++)
+            {
+                rateDay(klasa.getId(),i*numberOfHours);
+            }
+            
         }
     }
 
     public void setCLassPlan(int classId, Integer[] classes) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < numberOfColumnsInChromosome; i++) {
             matrix.setField(classes[i], classId, i);
         }
     }
@@ -333,7 +372,7 @@ public class ChromosomeDAO {
 
 
     public Integer getNumberOfHours() {
-        return matrix.getColumns();
+        return numberOfHours;
     }
 
     public void setNumberOfHours(Integer numberOfHours) {

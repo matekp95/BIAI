@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nanowobiai;
+package nanowobiai2;
 
 /**
  * Interface contains constans
@@ -13,10 +13,11 @@ package nanowobiai;
  */
 public interface ConstansInterface {
      /** integer number of threads */
-    final static int NUMBER_OF_CHROMOSOMES=2;
+    final static int NUMBER_OF_CHROMOSOMES=4;
     final static  String ANSI_RESET = "\u001B[0m";
     final static  String ANSI_RED = "\u001B[31m";
-    final static Integer NUMBER_OF_TEACHERS=4;
+    final static Integer NUMBER_OF_TEACHERS=5;
     final static Integer NUMBER_OF_HOURS =6;
     final static Integer NUMBER_OF_CLASSES=4;
+    final static Integer NUMBER_OF_DAYS=5;
 }
