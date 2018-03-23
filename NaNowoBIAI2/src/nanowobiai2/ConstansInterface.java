@@ -19,5 +19,5 @@ public interface ConstansInterface {
     final static Integer NUMBER_OF_TEACHERS=5;
     final static Integer NUMBER_OF_HOURS =6;
     final static Integer NUMBER_OF_CLASSES=4;
-    final static Integer NUMBER_OF_DAYS=2;
+    final static Integer NUMBER_OF_DAYS=5;
 }

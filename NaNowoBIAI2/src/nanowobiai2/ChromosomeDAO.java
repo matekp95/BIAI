@@ -248,29 +248,38 @@ public class ChromosomeDAO {
         return this;
     }
 
-    public ChromosomeDAO mutationFunction()
+    public ChromosomeDAO mutateChromosome()
     {
-        Random rand = new Random();
-        int switchFunc = rand.nextInt(numberOfColumnsInChromosome); // losujemy od 0 do 4
-        int whichColumn;
-        System.out.println("MUTACJA NUMER " + switchFunc);
+        System.out.println("Przed mutacją");
         this.printChromosome();
-        
-        for(int i=0;i<switchFunc+1;i++)
-        {
-        whichColumn=rand.nextInt(numberOfColumnsInChromosome-1); // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
-        // wypadło na ostatnia kolumne to lipa bedzie.
-        switchColumn(whichColumn,whichColumn+1);
-        }
-
-        System.out.println("PO MUTACJI ");
+        for (int i=0;i<numberOfDays;i++)
+            {
+                mutateDay(i*numberOfHours,numberOfHours);
+            }
+        System.out.println("Po mutacji");
+        this.rateChromosome();
         this.printChromosome();
         return this;
+    }
+    public void mutateDay(int startingDayPoint,int endDayPoint)
+    {
+        Random rand = new Random();
+        int switchFunc = rand.nextInt(numberOfHours); // losujemy ile kolumn chcemy zmienic
+        int whichColumn,randomColumn;
+
+        for(int i=0;i<switchFunc+1;i++)
+        {
+        whichColumn=rand.nextInt(numberOfHours-1)+startingDayPoint; // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
+        // wypadło na ostatnia kolumne to lipa bedzie.
+        randomColumn=rand.nextInt(numberOfHours-1)+startingDayPoint;
+        if(whichColumn == randomColumn)randomColumn+=1;
+        switchColumn(whichColumn,randomColumn);
+        }
     }
       
     private void switchColumn(int firstColumn, int secondColumn) {
         Integer tempValue = 0;
-        
+        System.out.println("Kolumna: "+firstColumn+" z: "+secondColumn);
         for (int i = 0; i < this.numberOfCLasses; i++) {            
             for (int j = 0; j < this.numberOfColumnsInChromosome; j++) {      
                 if(j == firstColumn)

@@ -62,18 +62,24 @@ public class Populacja {
 
            chromosom.printTeachersClasses();
 
+//           for (ChromosomeDAO ch: chromosomy)
+//           {
+//            ch.rateChromosome();
+//            ch.printChromosome();
+//           }
+//           for (int i=0;i<1;i++){
+//              rateAllChromosome();
+//              if (setAllChromosomeProbabiltyOfExistance())   { 
+//                     createNewPopulationBasedOnRouletteWheel();
+//                }
+//              crossingOverAllPopulation();
+//          }
            for (ChromosomeDAO ch: chromosomy)
            {
-            ch.rateChromosome();
-            ch.printChromosome();
+            ch.mutateChromosome();
+           // ch.rateChromosome();
+           // ch.printChromosome();
            }
-           for (int i=0;i<1;i++){
-              rateAllChromosome();
-              if (setAllChromosomeProbabiltyOfExistance())   { 
-                     createNewPopulationBasedOnRouletteWheel();
-                }
-              crossingOverAllPopulation();
-          }
             
        /*   for (ChromosomeDAO ch: chromosomy)
            {
@@ -84,13 +90,13 @@ public class Populacja {
           // losujemy jaka czesc populacji krzyżować
           //crossingOverAllPopulation();
           // crossing, when rand 0-25 then 1-3, 25-75 then 2-2, 75-100 then 3-1
-          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
-            for (ChromosomeDAO ch: chromosomy)
-           {
-            ch.rateChromosome();
-            ch.printChromosome();
-           }
-            
+//          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
+//            for (ChromosomeDAO ch: chromosomy)
+//           {
+//            ch.rateChromosome();
+//            ch.printChromosome();
+//           }
+//            
     }
     
     public void crossingOverAllPopulation()
