@@ -29,6 +29,18 @@ public class ChromosomeDAO {
     private Integer numberOfDays;
     private Integer numberOfColumnsInChromosome;
     private DAO dao;
+    private Integer[] tableOfRateRows;
+
+    public Integer[] getTableOfRateRows() {
+        return tableOfRateRows;
+    }
+
+    public Integer getTableOfRateRows(Integer i) {
+        return tableOfRateRows[i];
+    }
+    public void setTableOfRateRows(Integer[] tableOfRateRows) {
+        this.tableOfRateRows = tableOfRateRows;
+    }
 
     public Integer getNumberOfDays() {
         return numberOfDays;
@@ -121,6 +133,7 @@ public class ChromosomeDAO {
         this.numberOfDays=numberOfDays;
         this.numberOfColumnsInChromosome=numberOfDays*numberOfHours;
         this.id = id;
+        tableOfRateRows=new Integer[numberOfCLasses];
 
         DAO dao = new DAO();
         this.listOfClasses = dao.getClasses();
@@ -134,6 +147,7 @@ public class ChromosomeDAO {
         this.numberOfDays=chromosom.getNumberOfDays();
         this.numberOfColumnsInChromosome=chromosom.getNumberOfColumnsInChromosome();
         this.id = chromosom.getId();
+        tableOfRateRows=new Integer[numberOfCLasses];
 
         DAO dao = new DAO();
         this.listOfClasses = dao.getClasses();
@@ -194,11 +208,24 @@ public class ChromosomeDAO {
         }
         return false;
     }
+     private boolean findTeacherAtHour(int numberOfTeacher, int hour, int startClass) {
+
+        for (int cl = 0; cl < numberOfCLasses; cl++) {
+            if (cl==startClass)
+            {
+                
+            }
+            else if (matrix.getField(cl, hour) != null && matrix.getField(cl, hour) == numberOfTeacher) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public ChromosomeDAO repairFunction() {
         for (int i = 0; i < this.getNumberOfCLasses(); i++) {
             for (int j = 0; j < this.numberOfColumnsInChromosome; j++) {
-                if (matrix.getField(i, j) != null && findTeacherAtHour(matrix.getField(i, j), j)) {
+                if (matrix.getField(i, j) != null && findTeacherAtHour(matrix.getField(i, j), j,i)) {
                     // jezeli znalazł powtórzenie w kolumnie, to zerujemy cały wiersz
                     for (int s = 0; s < matrix.getColumns(); s++) {
                         matrix.setField(null, i, s);
@@ -247,18 +274,18 @@ public class ChromosomeDAO {
 
         return this;
     }
-
+    
     public ChromosomeDAO mutateChromosome()
     {
-        System.out.println("Przed mutacją");
-        this.printChromosome();
+      //  System.out.println("Przed mutacją");
+      //  this.printChromosome();
         for (int i=0;i<numberOfDays;i++)
             {
                 mutateDay(i*numberOfHours,numberOfHours);
             }
-        System.out.println("Po mutacji");
-        this.rateChromosome();
-        this.printChromosome();
+       // System.out.println("Po mutacji");
+      //  this.rateChromosome();
+       // this.printChromosome();
         return this;
     }
     public void mutateDay(int startingDayPoint,int endDayPoint)
@@ -269,17 +296,17 @@ public class ChromosomeDAO {
 
         for(int i=0;i<switchFunc+1;i++)
         {
-        whichColumn=rand.nextInt(numberOfHours-1)+startingDayPoint; // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
-        // wypadło na ostatnia kolumne to lipa bedzie.
-        randomColumn=rand.nextInt(numberOfHours-1)+startingDayPoint;
-        if(whichColumn == randomColumn)randomColumn+=1;
-        switchColumn(whichColumn,randomColumn);
+            whichColumn=rand.nextInt(numberOfHours-1)+startingDayPoint; // losowanie 0-3, bo zmieniac sie bedzie i-ta oraz i+1 kolumna, wiec jakby
+            // wypadło na ostatnia kolumne to lipa bedzie.
+            randomColumn=rand.nextInt(numberOfHours-1)+startingDayPoint;
+            if(whichColumn == randomColumn)randomColumn+=1;
+            switchColumn(whichColumn,randomColumn);
         }
     }
       
     private void switchColumn(int firstColumn, int secondColumn) {
         Integer tempValue = 0;
-        System.out.println("Kolumna: "+firstColumn+" z: "+secondColumn);
+       // System.out.println("Kolumna: "+firstColumn+" z: "+secondColumn);
         for (int i = 0; i < this.numberOfCLasses; i++) {            
             for (int j = 0; j < this.numberOfColumnsInChromosome; j++) {      
                 if(j == firstColumn)
@@ -294,8 +321,8 @@ public class ChromosomeDAO {
     
     public void printChromosome() {
 
-        System.out.println("chromosome id: " + id);
-        matrix.matrixPrint(numberOfHours);
+       // System.out.println("chromosome id: " + id);
+     //   matrix.matrixPrint(numberOfHours);
         printRating();
     }
 
@@ -310,7 +337,7 @@ public class ChromosomeDAO {
 
     }
 
-    public void rateDay(int CLassNumber, int startingDayPoint) {
+    public int rateDay(int CLassNumber, int startingDayPoint) {
 
         // 2. czy sa przerwy miedzy zajeciami    -1p.
         // 3. jak dluga przerwa miedzy zajeciami -2p.
@@ -342,22 +369,32 @@ public class ChromosomeDAO {
         }
         listOfClasses.get(CLassNumber).setRate(counter);
         rateOfChromosome += counter;
+        return counter;
     }
 
     public void rateChromosome() {
         rateOfChromosome=0;
+        int j=0;
+        int sumRateOfClass=0;
         for (CLass klasa : listOfClasses) {
             for (int i=0;i<numberOfDays;i++)
             {
-                rateDay(klasa.getId(),i*numberOfHours);
+               sumRateOfClass+= rateDay(klasa.getId(),i*numberOfHours);
             }
-            
+            tableOfRateRows[j]=sumRateOfClass;
+            sumRateOfClass=0;
+            j++;
         }
     }
 
     public void setCLassPlan(int classId, Integer[] classes) {
         for (int i = 0; i < numberOfColumnsInChromosome; i++) {
             matrix.setField(classes[i], classId, i);
+        }
+    }
+    public void setHour(int hourId, Integer[] classes) {
+        for (int i = 0; i < numberOfCLasses; i++) {
+            matrix.setField(classes[i], i, hourId);
         }
     }
 

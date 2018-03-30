@@ -13,11 +13,11 @@ package nanowobiai2;
  */
 public interface ConstansInterface {
      /** integer number of threads */
-    final static int NUMBER_OF_CHROMOSOMES=4;
+    final static int NUMBER_OF_CHROMOSOMES=100;
     final static  String ANSI_RESET = "\u001B[0m";
     final static  String ANSI_RED = "\u001B[31m";
-    final static Integer NUMBER_OF_TEACHERS=5;
+    final static Integer NUMBER_OF_TEACHERS=10;
     final static Integer NUMBER_OF_HOURS =6;
     final static Integer NUMBER_OF_CLASSES=4;
-    final static Integer NUMBER_OF_DAYS=5;
+    final static Integer NUMBER_OF_DAYS=3;
 }

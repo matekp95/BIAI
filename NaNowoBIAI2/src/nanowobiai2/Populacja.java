@@ -62,24 +62,32 @@ public class Populacja {
 
            chromosom.printTeachersClasses();
 
-//           for (ChromosomeDAO ch: chromosomy)
-//           {
-//            ch.rateChromosome();
-//            ch.printChromosome();
-//           }
-//           for (int i=0;i<1;i++){
-//              rateAllChromosome();
-//              if (setAllChromosomeProbabiltyOfExistance())   { 
-//                     createNewPopulationBasedOnRouletteWheel();
-//                }
-//              crossingOverAllPopulation();
-//          }
            for (ChromosomeDAO ch: chromosomy)
            {
-            ch.mutateChromosome();
-           // ch.rateChromosome();
-           // ch.printChromosome();
+            ch.rateChromosome();
+            ch.printChromosome();
            }
+           System.out.println("sredni"+sredniRating());
+           
+           Random rand=new Random();
+           for (int i=0;i<50;i++){
+              rateAllChromosome();
+              if (setAllChromosomeProbabiltyOfExistance())   { 
+                     createNewPopulationBasedOnRouletteWheel();
+                }
+              rateAllChromosome();
+            // if (rand.nextInt()%4==0)  
+               crossingOverAllPopulation();
+              mutateAllChromosome();
+          }
+
+
+//           for (ChromosomeDAO ch: chromosomy)
+//           {
+//            ch.mutateChromosome();
+//           // ch.rateChromosome();
+//           // ch.printChromosome();
+//           }
             
        /*   for (ChromosomeDAO ch: chromosomy)
            {
@@ -90,13 +98,57 @@ public class Populacja {
           // losujemy jaka czesc populacji krzyżować
           //crossingOverAllPopulation();
           // crossing, when rand 0-25 then 1-3, 25-75 then 2-2, 75-100 then 3-1
-//          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
-//            for (ChromosomeDAO ch: chromosomy)
-//           {
-//            ch.rateChromosome();
-//            ch.printChromosome();
-//           }
-//            
+          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
+            for (ChromosomeDAO ch: chromosomy)
+           {
+            ch.rateChromosome();
+            ch.printChromosome();
+           }
+            System.out.println("sredni"+sredniRating());
+//         
+    }
+    
+    
+    public List<ChromosomeDAO> getBestChromosome  ()
+    {
+        float minRate=chromosomy.get(0).getRateOfChromosome();
+        ArrayList<ChromosomeDAO> lista=new ArrayList<ChromosomeDAO>();
+        for (ChromosomeDAO chr : chromosomy) {
+            if (chr.getRateOfChromosome()<minRate)
+            {
+                minRate=chr.getRateOfChromosome();
+                lista.clear();
+                lista.add(chr);
+            }
+            else if (chr.getRateOfChromosome()==minRate)
+            {
+                lista.add(chr);
+            }
+            
+        }
+        return  lista;
+    }
+    /**
+     * Mutate only 5%
+     */
+    public void mutateAllChromosome(){
+        Random rand=new Random();
+        for (ChromosomeDAO ch: chromosomy)
+        {
+            if (rand.nextInt(10)==0){
+                ch.mutateChromosome();
+            }
+        }
+    }
+    public float sredniRating()
+    {
+        float suma=0.0f;
+        for (ChromosomeDAO ch: chromosomy)
+        {
+            suma+=ch.getRateOfChromosome();
+        }
+        return suma/NUMBER_OF_CHROMOSOMES;
+        
     }
     
     public void crossingOverAllPopulation()
@@ -106,14 +158,14 @@ public class Populacja {
         List<ChromosomeDAO> tempArray = new ArrayList<>();
         List<ChromosomeDAO> tempArrayShow = new ArrayList<>();
         Random rand=new Random();
-       int randomowa;
-       int pointOfIntersection;
+        int randomowa;
+        int pointOfIntersection;
         
         List<Integer> listOfId = new ArrayList<>();
-       for(int i=0;i<NUMBER_OF_CHROMOSOMES;i++)
-       {
-          listOfId.add(rand.nextInt(NUMBER_OF_CHROMOSOMES));
-       }
+        for(int i=0;i<NUMBER_OF_CHROMOSOMES;i++)
+        {
+           listOfId.add(rand.nextInt(NUMBER_OF_CHROMOSOMES));
+        }
         for(int i=0;i<NUMBER_OF_CHROMOSOMES;i+=2){
             
             ChromosomeDAO chr1 = chromosomy.get(listOfId.get(i));
@@ -121,28 +173,31 @@ public class Populacja {
             randomowa = rand.nextInt(100);
             pointOfIntersection=rand.nextInt(NUMBER_OF_CLASSES-1)+1;
             
+          //  pointOfIntersection=rand.nextInt(NUMBER_OF_DAYS*NUMBER_OF_HOURS-1)+1;
             
             
             
-            
-            
-            System.out.println(" RAND < 25 ");
-  
+
+    //    System.out.println(" RAND < 25 ");
+
 //            System.out.println("PIERWSZY CHROMOSOM DO KRZYZOWANIA" );
 //            chr1.printChromosome();
 //            System.out.println("DRUGI CHROMOSOM DO KRZYZOWANIA" );
 //            chr2.printChromosome();
 //            System.out.println("point of intersection: "+pointOfIntersection);
-            tempArrayShow.addAll(crossingOver(chr1,chr2,chr1.getId(),chr2.getId(),pointOfIntersection));
-            tempArray.addAll(tempArrayShow);
-            
-            System.out.println("PO KRZYZOWANIU 1");
-            tempArrayShow.get(0).printChromosome();
-            System.out.println("PO KRZYZOWANIU  2");
-            tempArrayShow.get(1).printChromosome();
-            tempArrayShow.clear();
-            
-            
+      //   System.out.println("point "+pointOfIntersection+" id "+chr1.getId()+chr2.getId());
+        tempArrayShow.addAll(crossingOver(chr1,chr2,chr1.getId(),chr2.getId(),pointOfIntersection));
+        tempArray.addAll(tempArrayShow);
+
+        System.out.println("PO KRZYZOWANIU 1");
+        tempArrayShow.get(0).rateChromosome();
+        tempArrayShow.get(0).printChromosome();
+        System.out.println("PO KRZYZOWANIU  2");
+        tempArrayShow.get(1).rateChromosome();
+        tempArrayShow.get(1).printChromosome();
+        tempArrayShow.clear();
+
+
             
             
             
@@ -214,7 +269,24 @@ public class Populacja {
 //        {
 //        tempArray.get(i).setId(i);
 //        }
+
+
+
         chromosomy.addAll(tempArray);
+        
+        
+        
+        
+        System.out.println("ZARAZ PO KRZYZOWANIU!!!!!!!!!!!!!!!!!");
+            for (ChromosomeDAO ch: chromosomy)
+           {
+            ch.rateChromosome();
+            ch.printChromosome();
+           }
+        System.out.println("sredni"+sredniRating());
+        
+        
+        
         
         // sprawdzenie powtórzeń
         repairingFunction();
@@ -236,6 +308,28 @@ public class Populacja {
     {
         ChromosomeDAO chrNowy = new ChromosomeDAO(id1,NUMBER_OF_TEACHERS , NUMBER_OF_HOURS, NUMBER_OF_CLASSES,NUMBER_OF_DAYS);
         ChromosomeDAO chrNowy2 = new ChromosomeDAO(id2,NUMBER_OF_TEACHERS , NUMBER_OF_HOURS, NUMBER_OF_CLASSES,NUMBER_OF_DAYS);
+        
+      /*  for(int i=0;i<chr1.getNumberOfCLasses();i++)
+        {
+            if (chr1.getTableOfRateRows(i)<chr2.getTableOfRateRows(i))
+            {
+                chrNowy.setCLassPlan(i, chr1.getMatrix().getSingleRow(i));
+                chrNowy2.setCLassPlan(i, chr2.getMatrix().getSingleRow(i));
+            }
+            else
+            {
+                chrNowy.setCLassPlan(i, chr2.getMatrix().getSingleRow(i));
+            chrNowy2.setCLassPlan(i, chr1.getMatrix().getSingleRow(i));
+            }
+        }
+        chrNowy.rateChromosome();
+        chrNowy2.rateChromosome();
+        if (chrNowy.getRateOfChromosome()<chrNowy2.getRateOfChromosome())
+            chrNowy2=new ChromosomeDAO(chrNowy);
+        else
+            chrNowy=new ChromosomeDAO(chrNowy2);
+        */
+        
         for (int i=0;i<rowCountFromParent1;i++)
         {
             chrNowy.setCLassPlan(i, chr1.getMatrix().getSingleRow(i));
@@ -246,9 +340,27 @@ public class Populacja {
             chrNowy.setCLassPlan(i, chr2.getMatrix().getSingleRow(i));
             chrNowy2.setCLassPlan(i, chr1.getMatrix().getSingleRow(i));
         }
+        
         ArrayList<ChromosomeDAO> temp = new ArrayList<ChromosomeDAO>();
         temp.add(chrNowy);
         temp.add(chrNowy2);
+      
+     /*   for (int i=0;i<rowCountFromParent1;i++)
+        {
+            chrNowy.setHour(i, chr1.getMatrix().getSingleColumn(i));
+            chrNowy2.setHour(i, chr2.getMatrix().getSingleColumn(i));
+        }
+        for(int i=rowCountFromParent1;i<chr1.getNumberOfColumnsInChromosome();i++)
+        {
+            chrNowy.setHour(i, chr2.getMatrix().getSingleColumn(i));
+            chrNowy2.setHour(i, chr1.getMatrix().getSingleColumn(i));
+        }
+        ArrayList<ChromosomeDAO> temp = new ArrayList<ChromosomeDAO>();
+        temp.add(chrNowy);
+        temp.add(chrNowy2);
+      */
+      
+      
         return temp;
     }
 
@@ -276,6 +388,9 @@ public class Populacja {
         for(ChromosomeDAO chr: chromosomy)
         {
            probability=(float) (worstChromosome.getRateOfChromosome()-chr.getRateOfChromosome()+1)/(sumOfRateOfAllChromosome);
+        
+           
+           
            //probability=(float) chr.getRateOfChromosome()/sumOfRateOfAllChromosome;
            sumProbabilty+=probability;
            chr.setProbabilityOfExistance(probability);

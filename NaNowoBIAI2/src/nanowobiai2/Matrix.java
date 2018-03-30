@@ -38,9 +38,17 @@ public class Matrix {
                field=matrix.getField(i, j);
                j++;
             }
-            j=0;
+            j=0
             i++;
         }*/
+    }
+    public Integer[] getSingleColumn(int number)
+    {
+        Integer[] tabliczka=new Integer[rows];
+        for (int i=0;i<rows;i++){
+            tabliczka[i]=table[i][number];
+        }
+        return tabliczka;
     }
     public Integer[] getSingleRow(int number)
     {

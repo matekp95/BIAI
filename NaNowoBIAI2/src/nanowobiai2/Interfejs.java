@@ -7,6 +7,7 @@ package nanowobiai2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import viewCLasses.Plans;
@@ -20,9 +21,23 @@ public class Interfejs {
     public static void main(String[] args) {
            Populacja p=new Populacja();
            p.symulacja();
-           Plans pl=new Plans(p.getChromosomy().get(0));
-           p.getChromosomy().get(0).printChromosome();
-           pl.print();
+           Plans plans;
+           ArrayList<Plans> planss=new ArrayList<>();
+           for (ChromosomeDAO chromosomeDAO : p.getBestChromosome()) {
+               plans=new Plans(chromosomeDAO);
+               planss.add(plans);
+            
+           }
+           System.out.println("inter");
+           System.out.println("inter");
+           System.out.println("inter");
+           System.out.println("inter");
+           
+           for (Plans plans1 : planss) {
+               plans1.print();
+           }
+           //p.getChromosomy().get(0).printChromosome();
+         
           
 //           
 //           PlansCreator pc=new PlansCreator(p);

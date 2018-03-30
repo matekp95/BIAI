@@ -23,19 +23,19 @@ public class DAO {
     
     public DAO()
     {
-       Integer[] tab=new Integer[]{1,1,2,2,3,4,4,4,5,5};
+       Integer[] tab=new Integer[]{1,2,3,4,5,6,7,8,9,10};
        CLass p=new CLass(0, Arrays.asList(tab));
        classes.add(p);
        
-       tab=new Integer[]{1,1,2,3,4,4,4,5,5};
+       tab=new Integer[]{1,2,3,3,4,4,5,6,7,8,9,10};
        p=new CLass(1, Arrays.asList(tab));
        classes.add(p);
        
-       tab=new Integer[]{2,2,2,3,4,4,4,4};
+       tab=new Integer[]{1,1,2,3,4,5,6,7,7,8,8};
        p=new CLass(2, Arrays.asList(tab));
        classes.add(p);
        
-       tab=new Integer[]{1,2,3,3,4,4,5,5};
+       tab=new Integer[]{1,2,3,4,5,6,6,7,7,8,8};
        p=new CLass(3, Arrays.asList(tab));
        classes.add(p);
     }

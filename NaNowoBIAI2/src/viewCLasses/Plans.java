@@ -38,6 +38,11 @@ public class Plans {
         teacherNames.add("C");
         teacherNames.add("D");
         teacherNames.add("E");
+        teacherNames.add("F");
+        teacherNames.add("G");
+        teacherNames.add("H");
+        teacherNames.add("I");
+        teacherNames.add("J");
         createPlans();
     }
     private void createPlans(){
