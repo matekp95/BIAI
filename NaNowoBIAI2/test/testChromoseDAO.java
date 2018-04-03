@@ -1,9 +1,9 @@
 
-import nanowobiai2.ChromosomeDAO;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_CLASSES;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_DAYS;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_HOURS;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_TEACHERS;
+import chromosomeClasses.ChromosomeDAO;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_CLASSES;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_DAYS;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_HOURS;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_TEACHERS;
 import org.junit.Test;
 
 /*
@@ -18,6 +18,9 @@ import org.junit.Test;
  */
 public class testChromoseDAO {
     
+    /**
+     *
+     */
     @Test
     public void testRate()
     {

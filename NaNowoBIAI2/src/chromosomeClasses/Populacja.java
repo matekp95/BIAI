@@ -3,47 +3,67 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nanowobiai2;
+package chromosomeClasses;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_CHROMOSOMES;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_CLASSES;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_DAYS;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_HOURS;
-import static nanowobiai2.ConstansInterface.NUMBER_OF_TEACHERS;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_CHROMOSOMES;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_CLASSES;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_DAYS;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_HOURS;
+import static chromosomeClasses.ConstansInterface.NUMBER_OF_TEACHERS;
 import viewCLasses.Plans;
 /**
- *
+ * Class that represents all population. Holds all chromosomes
  * @author Kamil Sowa
  */
 public class Populacja {
+    /**
+     * table of rullete wheels for every chromosoem
+     */
     Float[] RuletteWheel;
-     private List<ChromosomeDAO> chromosomy=new ArrayList<ChromosomeDAO>();
+    /**
+     * lsit of all chromosome in population
+     */
+    private List<ChromosomeDAO> chromosomy=new ArrayList<ChromosomeDAO>();
 
+    /**
+     *Getter for rulette wheels
+     * @return rulette wheels
+     */
     public Float[] getRuletteWheel() {
         return RuletteWheel;
     }
 
+    /**
+     * Setter for rulette wheels
+     * @param RuletteWheel rulette wheels
+     */
     public void setRuletteWheel(Float[] RuletteWheel) {
         this.RuletteWheel = RuletteWheel;
     }
 
     /**
-     *
-     * @return
+     *Getter for list of chromosome
+     * @return list of chromosome
      */
     public List<ChromosomeDAO> getChromosomy() {
         return chromosomy;
     }
 
+    /**
+     *Setter for list of chromosome
+     * @param chromosomy list of chromosome
+     */
     public void setChromosomy(List<ChromosomeDAO> chromosomy) {
         this.chromosomy = chromosomy;
     }
          
-     
+    /**
+     *Constructor
+     */
     public Populacja(){
         RuletteWheel=new Float[NUMBER_OF_CHROMOSOMES];
     }
@@ -56,59 +76,69 @@ public class Populacja {
             chromosomy.add(chromosom);
         }
     }
-    public void symulacja()
+
+    /**
+     *Simulate life of all chromosomes
+     * @param NUMBER_OF_GENERATIONS number of generations
+     */
+    public void symulacja(int NUMBER_OF_GENERATIONS)
     {
         ChromosomeDAO chromosom=new ChromosomeDAO(1,NUMBER_OF_TEACHERS , NUMBER_OF_HOURS, NUMBER_OF_CLASSES,NUMBER_OF_DAYS);
 
-           chromosom.printTeachersClasses();
+        chromosom.printTeachersClasses();
 
-           for (ChromosomeDAO ch: chromosomy)
-           {
-            ch.rateChromosome();
-            ch.printChromosome();
-           }
-           System.out.println("sredni"+sredniRating());
-           
-           Random rand=new Random();
-           for (int i=0;i<50;i++){
-              rateAllChromosome();
-              if (setAllChromosomeProbabiltyOfExistance())   { 
-                     createNewPopulationBasedOnRouletteWheel();
-                }
-              rateAllChromosome();
-            // if (rand.nextInt()%4==0)  
-               crossingOverAllPopulation();
-              mutateAllChromosome();
-          }
+        for (ChromosomeDAO ch: chromosomy)
+        {
+         ch.rateChromosome();
+        // ch.printChromosome();
+        }
+        System.out.println("Srednia wartość funkcji oceny: "+sredniRating());
+        System.out.println("Najlepsza funkcja oceny dla chromosomu: "+getBestChromosome().get(0).getId()+" ma funkcję oceny "+getBestChromosome().get(0).getRateOfChromosome());
+
+        Random rand=new Random();
+        for (int i=0;i<NUMBER_OF_GENERATIONS;i++){
+           rateAllChromosome();
+           if (setAllChromosomeProbabiltyOfExistance())   { 
+                  createNewPopulationBasedOnRouletteWheel();
+             }
+           rateAllChromosome();
+           crossingOverAllPopulation();
+           mutateAllChromosome();
+       }
 
 
-//           for (ChromosomeDAO ch: chromosomy)
-//           {
-//            ch.mutateChromosome();
-//           // ch.rateChromosome();
-//           // ch.printChromosome();
-//           }
-            
-       /*   for (ChromosomeDAO ch: chromosomy)
-           {
-            ch.rateChromosome();
-            ch.printChromosome();
-           }*/
-            
-          // losujemy jaka czesc populacji krzyżować
-          //crossingOverAllPopulation();
-          // crossing, when rand 0-25 then 1-3, 25-75 then 2-2, 75-100 then 3-1
-          System.out.println("NOWE CHROMOSOMY!!!!!!!!!!!!!!!!!!");
-            for (ChromosomeDAO ch: chromosomy)
-           {
-            ch.rateChromosome();
-            ch.printChromosome();
-           }
-            System.out.println("sredni"+sredniRating());
+//        for (ChromosomeDAO ch: chromosomy)
+//        {
+//         ch.mutateChromosome();
+//        // ch.rateChromosome();
+//        // ch.printChromosome();
+//        }
+
+    /*   for (ChromosomeDAO ch: chromosomy)
+        {
+         ch.rateChromosome();
+         ch.printChromosome();
+        }*/
+
+       // losujemy jaka czesc populacji krzyżować
+       //crossingOverAllPopulation();
+       // crossing, when rand 0-25 then 1-3, 25-75 then 2-2, 75-100 then 3-1
+       System.out.println();
+       System.out.println("PO PRZEJSCIU GENERACJI ");
+         for (ChromosomeDAO ch: chromosomy)
+        {
+         ch.rateChromosome();
+        // ch.printChromosome();
+        }
+        System.out.println("Srednia wartość funkcji oceny po wszystkich generacjach:"+sredniRating());
+        System.out.println("Najlepsza funkcja oceny dla chromosomu: "+getBestChromosome().get(0).getId()+" ma funkcję oceny "+getBestChromosome().get(0).getRateOfChromosome());
 //         
     }
     
-    
+    /**
+     *Gets list of chromosome with lowest rate
+     * @return list of chromosome with lowets rate
+     */
     public List<ChromosomeDAO> getBestChromosome  ()
     {
         float minRate=chromosomy.get(0).getRateOfChromosome();
@@ -129,7 +159,7 @@ public class Populacja {
         return  lista;
     }
     /**
-     * Mutate only 5%
+     * Mutate only 10% of population
      */
     public void mutateAllChromosome(){
         Random rand=new Random();
@@ -140,6 +170,11 @@ public class Populacja {
             }
         }
     }
+
+    /**
+     *Calculates average rating of population
+     * @return average rating of population
+     */
     public float sredniRating()
     {
         float suma=0.0f;
@@ -151,6 +186,9 @@ public class Populacja {
         
     }
     
+    /**
+     *Crosses over all population
+     */
     public void crossingOverAllPopulation()
     {
         // losujemy jaka czesc populacji krzyżować
@@ -189,12 +227,14 @@ public class Populacja {
         tempArrayShow.addAll(crossingOver(chr1,chr2,chr1.getId(),chr2.getId(),pointOfIntersection));
         tempArray.addAll(tempArrayShow);
 
-        System.out.println("PO KRZYZOWANIU 1");
-        tempArrayShow.get(0).rateChromosome();
-        tempArrayShow.get(0).printChromosome();
-        System.out.println("PO KRZYZOWANIU  2");
-        tempArrayShow.get(1).rateChromosome();
-        tempArrayShow.get(1).printChromosome();
+//        System.out.println("PO KRZYZOWANIU 1");
+//        tempArrayShow.get(0).rateChromosome();
+//        tempArrayShow.get(0).printChromosome();
+//        System.out.println("PO KRZYZOWANIU  2");
+//        tempArrayShow.get(1).rateChromosome();
+//        tempArrayShow.get(1).printChromosome();
+        
+        
         tempArrayShow.clear();
 
 
@@ -277,13 +317,13 @@ public class Populacja {
         
         
         
-        System.out.println("ZARAZ PO KRZYZOWANIU!!!!!!!!!!!!!!!!!");
-            for (ChromosomeDAO ch: chromosomy)
-           {
-            ch.rateChromosome();
-            ch.printChromosome();
-           }
-        System.out.println("sredni"+sredniRating());
+//        System.out.println("ZARAZ PO KRZYZOWANIU!!!!!!!!!!!!!!!!!");
+//            for (ChromosomeDAO ch: chromosomy)
+//           {
+//            ch.rateChromosome();
+//            ch.printChromosome();
+//           }
+//        System.out.println("sredni"+sredniRating());
         
         
         
@@ -298,12 +338,25 @@ public class Populacja {
         
     }
     
+    /**
+     *Rapairs all chromosomes in population
+     */
     public void repairingFunction()
     {
         chromosomy.forEach((ch) -> {
             ch.repairFunction();
         });
     }
+
+    /**
+     *Crossing-over between two chromosomes
+     * @param chr1 first chromosome
+     * @param chr2 second chromosome
+     * @param id1 id of first new
+     * @param id2 id of second new
+     * @param rowCountFromParent1 line of intersection
+     * @return list of two new chromosomes
+     */
     public ArrayList<ChromosomeDAO> crossingOver(ChromosomeDAO chr1, ChromosomeDAO chr2, Integer id1, Integer id2, Integer rowCountFromParent1)
     {
         ChromosomeDAO chrNowy = new ChromosomeDAO(id1,NUMBER_OF_TEACHERS , NUMBER_OF_HOURS, NUMBER_OF_CLASSES,NUMBER_OF_DAYS);
@@ -364,7 +417,9 @@ public class Populacja {
         return temp;
     }
 
-    
+    /**
+     * prints rulette wheel
+     */
     public void printKoloRuletki()
     {
         int i=0;
@@ -376,6 +431,11 @@ public class Populacja {
             i++;
         }
     }
+
+    /**
+     * Sets chromosomes probability of existance
+     * @return if probability is okej true
+     */
     public boolean setAllChromosomeProbabiltyOfExistance()
     {
         //(Wartość najgorszego osobnika-Wartość danego osobnika+1)/(suma wartości wszystkich osobników+1)
@@ -388,14 +448,10 @@ public class Populacja {
         for(ChromosomeDAO chr: chromosomy)
         {
            probability=(float) (worstChromosome.getRateOfChromosome()-chr.getRateOfChromosome()+1)/(sumOfRateOfAllChromosome);
-        
-           
-           
-           //probability=(float) chr.getRateOfChromosome()/sumOfRateOfAllChromosome;
            sumProbabilty+=probability;
            chr.setProbabilityOfExistance(probability);
         }
-        System.out.println("sumProb: "+sumProbabilty);
+        //System.out.println("sumProb: "+sumProbabilty);
         
         for(ChromosomeDAO chr: chromosomy)
         {
@@ -403,7 +459,7 @@ public class Populacja {
             //System.out.println(chr.getProbabilityOfExistance());
             sumProbabiltyAfter+=chr.getProbabilityOfExistance();
         }
-        System.out.println("sumProbabiltyAfter: "+sumProbabiltyAfter);
+       // System.out.println("sumProbabiltyAfter: "+sumProbabiltyAfter);
         
         
         if (sumProbabiltyAfter>0.98 && sumProbabiltyAfter<1.02)
@@ -411,7 +467,10 @@ public class Populacja {
         else
             return false;
     }
-
+    /**
+     * Calculates rate of all chromosomes
+     * @return sum of rate of all chromosomes
+     */
     private int getTheSumOfRateOfAllChromosome() {
         int sum=0;
         for(ChromosomeDAO chr: chromosomy)
@@ -420,7 +479,10 @@ public class Populacja {
         }
         return sum;
     }
-
+    /**
+     * Finds worst chromosome
+     * @return worst chromosome
+     */
     private ChromosomeDAO getTheWorstChromosome() {
         int worstRate=0;
         ChromosomeDAO worstChromosome = chromosomy.get(0);
@@ -435,12 +497,15 @@ public class Populacja {
         return worstChromosome;
     }
     
+    /**
+     * Creation of rulette wheel
+     */
     public void createNewRuletteWheel()
     {
        
         Float sumOfProbability = 0.0f;
-        System.out.println();
-        System.out.println();
+//        System.out.println();
+//        System.out.println();
         for (int i=0;i<NUMBER_OF_CHROMOSOMES;i++)
         {
            RuletteWheel[i]=chromosomy.get(i).getProbabilityOfExistance()+sumOfProbability;
@@ -448,7 +513,8 @@ public class Populacja {
         }
     }
     /**
-     * Creates new population
+     * Creates new population. Selection process
+     * @return new population
      */
     public List<ChromosomeDAO> createNewPopulationBasedOnRouletteWheel()
     {
@@ -461,7 +527,7 @@ public class Populacja {
         {
            
             randomNumber=rand.nextFloat();
-            System.out.println("randomNumber "+randomNumber);
+           // System.out.println("randomNumber "+randomNumber);
             for (int j=0;j<RuletteWheel.length;j++){
                 if (randomNumber<RuletteWheel[j])
                 {
@@ -471,13 +537,13 @@ public class Populacja {
                 }
             }
         }
-        System.out.println("choosen");
-        for (ChromosomeDAO chr:chromosomyNewPopulation){
-            System.out.println(chr.getProbabilityOfExistance()+ "  "+chr.getId());
-        }
-        System.out.println("");
+//        System.out.println("choosen");
+//        for (ChromosomeDAO chr:chromosomyNewPopulation){
+//            System.out.println(chr.getProbabilityOfExistance()+ "  "+chr.getId());
+//        }
+//        System.out.println("");
         
-        printKoloRuletki();
+       // printKoloRuletki();
 
         chromosomy=chromosomyNewPopulation;
         
@@ -486,6 +552,10 @@ public class Populacja {
 //        }
         return chromosomyNewPopulation;
     }
+
+    /**
+     *Rates all chromosomes in population
+     */
     public void rateAllChromosome(){
         for (ChromosomeDAO chr:chromosomy){
             chr.rateChromosome();
