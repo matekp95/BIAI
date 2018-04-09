@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @version 1.0
  */
 public interface ConstansInterface {
-     /** integer number of threads */
+     
     final static Integer NUMBER_OF_CHROMOSOMES=100;
 
     /**
@@ -46,6 +46,8 @@ public interface ConstansInterface {
      *
      */
     final static Integer NUMBER_OF_DAYS=3;
+    /** integer number of threads */
     
+    final static Integer NUMBER_OF_THREADS=8;
     
 }
