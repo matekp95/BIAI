@@ -141,22 +141,6 @@ public class Populacja {
      */
     public List<ChromosomeDAO> getBestChromosome  ()
     {
-//        float minRate=chromosomy.get(0).getRateOfChromosome();
-//        ArrayList<ChromosomeDAO> lista=new ArrayList<ChromosomeDAO>();
-//        for (ChromosomeDAO chr : chromosomy) {
-//            if (chr.getRateOfChromosome()<minRate)
-//            {
-//                minRate=chr.getRateOfChromosome();
-//                lista.clear();
-//                lista.add(chr);
-//            }
-//            else if (chr.getRateOfChromosome()==minRate)
-//            {
-//                lista.add(chr);
-//            }
-//            
-//        }
-//        return lista;
         Comparator<ChromosomeDAO> comp = (p1, p2) -> Integer.compare( p1.getRateOfChromosome(), p2.getRateOfChromosome());
         
         Optional<ChromosomeDAO> wyniki=
@@ -196,17 +180,7 @@ public class Populacja {
                 .average()
                 .getAsDouble();
                 
-        
-        
-//        float suma=0.0f;
-//        for (ChromosomeDAO ch: chromosomy)
-//        {
-//            suma+=ch.getRateOfChromosome();
-//        }
-//        return suma/NUMBER_OF_CHROMOSOMES;
-        
-        
-                
+          
         
     }
     
@@ -385,12 +359,6 @@ public class Populacja {
                 .mapToInt(p->p.getRateOfChromosome())
                 .sum();
         
-//        int sum=0;
-//        for(ChromosomeDAO chr: chromosomy)
-//        {
-//            sum+=chr.getRateOfChromosome();
-//        }
-//        return sum;
     }
     /**
      * Finds worst chromosome
@@ -404,17 +372,6 @@ public class Populacja {
                 .max((p1,p2)->Integer.compare(p1.getRateOfChromosome(),p2.getRateOfChromosome()))
                 .get();
         
-//        int worstRate=0;
-//        ChromosomeDAO worstChromosome = chromosomy.get(0);
-//        for(ChromosomeDAO chr: chromosomy)
-//        {
-//            if (worstRate< chr.getRateOfChromosome())
-//            { 
-//                worstRate=chr.getRateOfChromosome();
-//               worstChromosome=chr;
-//            }
-//        }
-//        return worstChromosome;
     }
     
     /**
@@ -457,19 +414,9 @@ public class Populacja {
                 }
             }
         }
-//        System.out.println("choosen");
-//        for (ChromosomeDAO chr:chromosomyNewPopulation){
-//            System.out.println(chr.getProbabilityOfExistance()+ "  "+chr.getId());
-//        }
-//        System.out.println("");
-        
-       // printKoloRuletki();
 
         chromosomy=chromosomyNewPopulation;
         
-//        for (int i = 0; i < NUMBER_OF_CHROMOSOMES; i++) {
-//            chromosomy.get(i).setId(i);
-//        }
         return chromosomyNewPopulation;
     }
 

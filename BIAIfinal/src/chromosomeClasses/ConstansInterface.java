@@ -45,7 +45,7 @@ public interface ConstansInterface {
     /**
      *
      */
-    final static Integer NUMBER_OF_DAYS=3;
+    final static Integer NUMBER_OF_DAYS=4;
     /** integer number of threads */
     
     final static Integer NUMBER_OF_THREADS=8;
