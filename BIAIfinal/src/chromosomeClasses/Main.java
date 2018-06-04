@@ -24,7 +24,7 @@ public class Main implements ConstansInterface {
      * @param args
      */
     public static void main(String[] args) {
-        Populacja p=new Populacja();
+        Population p=new Population();
         System.out.println("Liczba Chromosomów:  "+NUMBER_OF_CHROMOSOMES);
         System.out.println("Liczba klas:  "+NUMBER_OF_CLASSES);
         System.out.println("Liczba dni z zajęciami lekcyjnymi:  "+NUMBER_OF_DAYS);

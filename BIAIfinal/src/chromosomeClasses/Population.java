@@ -36,7 +36,7 @@ import viewCLasses.Plans;
  * Class that represents all population. Holds all chromosomes
  * @author Kamil Sowa
  */
-public class Populacja {
+public class Population {
     /**
      * table of rullete wheels for every chromosoem
      */
@@ -81,7 +81,7 @@ public class Populacja {
     /**
      *Constructor
      */
-    public Populacja(){
+    public Population(){
         RuletteWheel=new Float[NUMBER_OF_CHROMOSOMES];
     }
    
@@ -227,9 +227,9 @@ public class Populacja {
                     callables.clear();
                     
                 } catch (InterruptedException ex) {
-                    Logger.getLogger(Populacja.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (ExecutionException ex) {
-                    Logger.getLogger(Populacja.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(Population.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
            // tempArray.addAll(tempArrayShow);
