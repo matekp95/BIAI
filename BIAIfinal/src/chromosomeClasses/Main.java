@@ -31,10 +31,22 @@ public class Main implements ConstansInterface {
         System.out.println("Liczba nauczycieli:  "+NUMBER_OF_TEACHERS);
         
         int NUMBER_OF_GENERATIONS;
-        System.out.println("Podaj liczbe generacji: ");
         Scanner odczyt = new Scanner(System.in); //obiekt do odebrania danych od użytkownika
-        NUMBER_OF_GENERATIONS = Integer.parseInt( odczyt.nextLine());
-
+        Integer valueOf = null;
+        while ( valueOf==null )
+        {
+             System.out.println("Podaj liczbe generacji: ");
+             try {
+                valueOf = Integer.valueOf(odczyt.nextLine()) ;
+             }
+             catch (Exception ex) {
+                 
+             }
+        }
+        
+        //NUMBER_OF_GENERATIONS = Integer.parseInt( odczyt.nextLine());
+        NUMBER_OF_GENERATIONS=valueOf;
+        
         p.symulacja(NUMBER_OF_GENERATIONS);
 
         Plans plans;
